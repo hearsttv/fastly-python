@@ -981,11 +981,12 @@ class FastlyConnection(object):
 		content = self._fetch("/service/{}/version/{}/acl".format(service_id, version_number), method="POST", body=body)
 		return FastlyACL(self, content)
 
-	def create_acl_entry(self, service_id, acl_id, ip, subnet=None):
+	def create_acl_entry(self, service_id, acl_id, ip, subnet=None, negated=False):
 		body = self._formdata({
 			"ip": ip,
 			"subnet": subnet,
-		}, ["ip", "subnet"])
+			"negated": negated,
+		}, ["ip", "subnet", "negated"])
 
 		content = self._fetch("/service/{}/acl/{}/entry".format(service_id, acl_id), method="POST", body=body)
 		return FastlyACLEntry(self, content)
